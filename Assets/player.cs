@@ -9,7 +9,7 @@ public class player : MonoBehaviour
     private Rigidbody2D rb;
     public Ball ball;
     private float movementX;
-    private float speed = 5f;
+    public float speed = 5f;
     public int shootstep = 0;
     private float strength = 1f;
     private float angle = 0f;

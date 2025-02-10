@@ -6,20 +6,25 @@ public class SCORE : MonoBehaviour
 {   
     public TextMeshProUGUI scoreText;  // This should be visible in the Inspector
     public TextMeshProUGUI roundText;
-    private int score1 = 0;
+    public Rigidbody2D wormholein;
+    public Rigidbody2D wormholeout;
+    public int score1 = 0;
     public int round=1;
     public bool nextlevel=false;
-    //private int score2 = 0;
-    //public ParticleSystem goalEffect;
-    //public AudioSource goalsound;
+    
 
+    public int getScore()
+    {
+        return score1;
+    }
     void Start()
     {
-       
         UpdateScore();  // Fixed function name
         roundText.gameObject.SetActive(false);
         checknextlevel();
+
     }
+    
 
     public void AddScore1(int points)
     {
@@ -46,16 +51,26 @@ public class SCORE : MonoBehaviour
             StartCoroutine(showroundtext(round));
         
         }
+        else if (score1 == 3)
+        {
+
+            Debug.Log("next level!");
+            round = 3;
+            StartCoroutine(showroundtext(round));
+
+        }
 
     }
     IEnumerator showroundtext(int round){
         nextlevel=true;
         if(round==1){
             roundText.text="Round "+round.ToString();
-        }else{
+        } else if(round == 2){
             roundText.text="Round "+round.ToString()+"\n Congratulation!";
+        } else if (round == 3){
+            roundText.text = "Round " + round.ToString() + "\n Congratulation!";
         }
-        
+
         roundText.gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(3f);
         

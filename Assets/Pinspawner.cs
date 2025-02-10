@@ -25,19 +25,30 @@ public class Pinspawner : MonoBehaviour
         if(ball.gamenotover==false){
             StopAllCoroutines();
         }
-        if(scoremanager.round==2 && firstspawn){
+        int currScore = scoremanager.getScore();
+        if (currScore == 2 || currScore == 4) {
+            firstspawn = true;
+        }
+        if (currScore == 3 && firstspawn)
+        {
+            firstspawn = false;
             Destroyspike();
-            
-            firstspawn=false;
             spikenum=5;
             StartCoroutine(randomspike());
+        } else if (currScore == 1 && firstspawn)
+        {
+            firstspawn = false;
+            Destroyspike();
+            spikenum = 5;
+            generatespike();
+
         }
     }
     IEnumerator randomspike(){
-        while(scoremanager.round !=1 ) // Keep running while round is 2
+        while(scoremanager.round !=1 ) // Keep running while round is 3
         {
             generatespike();
-            yield return new WaitForSecondsRealtime(7f);
+            yield return new WaitForSecondsRealtime(4f);
             Destroyspike();
             yield return new WaitForSecondsRealtime(1f);
         }

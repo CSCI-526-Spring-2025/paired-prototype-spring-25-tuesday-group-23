@@ -30,7 +30,7 @@ public class Ball : MonoBehaviour
         windTransform = winddir.GetComponent<RectTransform>();
         ChangeWind();
         
-        StartCoroutine(Fickerball());
+        //StartCoroutine(Fickerball());
        
     }
 
@@ -47,14 +47,14 @@ public class Ball : MonoBehaviour
 
     }
 
-    IEnumerator Fickerball(){
-        while(gamenotover){
-           ballrenderer.enabled=true;
-           yield return new WaitForSecondsRealtime(0.2f);
-           ballrenderer.enabled=false;
-           yield return new WaitForSecondsRealtime(0.5f);
-        }
-    }
+    //IEnumerator Fickerball(){
+    //    while(gamenotover){
+    //       ballrenderer.enabled=true;
+    //       yield return new WaitForSecondsRealtime(0.2f);
+    //       ballrenderer.enabled=false;
+    //       yield return new WaitForSecondsRealtime(0.5f);
+    //    }
+    //}
     /*
     void Update(){
         if(scoremanager.nextlevel==true){
@@ -123,6 +123,10 @@ public class Ball : MonoBehaviour
         
         transform.SetParent(player.transform); // Attach ball to player
         player.shootstep=1;
+        if(scoremanager.getScore() >= 3)
+        {
+            player.speed = 0f;
+        }
         Debug.Log("attach to parent");
         transform.localPosition = new Vector2(1.1f, 1.1f); // Adjust position relative to player
     }
@@ -132,12 +136,12 @@ public class Ball : MonoBehaviour
         player.shootstep=0;
         rb.isKinematic=false;
         transform.SetParent(null);
-        
+       
         Debug.Log("fly out of parent");
         StartCoroutine(enablecollide());
         shootforce = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)) * strength;
         rb.AddForce(shootforce,ForceMode2D.Impulse);
-        
+        player.speed=5f;
         Debug.Log("Ball Shot! Angle: " + angle + " Strength: " + strength);
        
     }

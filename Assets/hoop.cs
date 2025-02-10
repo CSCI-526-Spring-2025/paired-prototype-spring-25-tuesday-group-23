@@ -22,7 +22,7 @@ public class hoop : MonoBehaviour
     // Update is called once per frame,uncommented it for level two
     void Update()
     {
-        if(scoremanager.round==2){
+        if(scoremanager.round>1){
             positionx+=dir * speed * Time.deltaTime;
             if(positionx<=-3f){
                 dir=1;
