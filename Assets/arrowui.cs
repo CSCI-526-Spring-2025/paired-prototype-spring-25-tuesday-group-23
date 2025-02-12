@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 public class arrowui : MonoBehaviour
 {
-    private float angle = 0f;
-    private float dir = 1f;
+    //private float angle = 0f;
+    //private float dir = 1f;
     private RectTransform arrowtransform;
     public player player;
     // Start is called before the first frame update

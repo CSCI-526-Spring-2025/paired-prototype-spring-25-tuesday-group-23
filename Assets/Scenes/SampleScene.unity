@@ -648,11 +648,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48af69cbba84e5a45a99c33cfd396352, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   scoreText: {fileID: 0}
   roundText: {fileID: 1884657855}
   wormholein: {fileID: 0}
   wormholeout: {fileID: 0}
   score1: 0
+=======
+  roundText: {fileID: 1884657855}
+>>>>>>> a549d6d (new version)
   round: 1
   nextlevel: 0
 --- !u!4 &592809354
@@ -683,6 +687,10 @@ GameObject:
   - component: {fileID: 608992815}
   - component: {fileID: 608992818}
   - component: {fileID: 608992819}
+<<<<<<< HEAD
+=======
+  - component: {fileID: 608992820}
+>>>>>>> a549d6d (new version)
   m_Layer: 0
   m_Name: Hoop
   m_TagString: hoop
@@ -796,7 +804,11 @@ Transform:
   m_GameObject: {fileID: 608992814}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+<<<<<<< HEAD
   m_LocalPosition: {x: 6, y: 3.5, z: 0}
+=======
+  m_LocalPosition: {x: 7, y: 3.5, z: 0}
+>>>>>>> a549d6d (new version)
   m_LocalScale: {x: 1.5, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -812,7 +824,11 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 608992814}
+<<<<<<< HEAD
   m_BodyType: 1
+=======
+  m_BodyType: 2
+>>>>>>> a549d6d (new version)
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -838,12 +854,65 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 608992814}
+<<<<<<< HEAD
   m_Enabled: 1
+=======
+  m_Enabled: 0
+>>>>>>> a549d6d (new version)
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faf621a3f6a64c94ba38972c66bee06e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   scoremanager: {fileID: 0}
+=======
+  scoremanager: {fileID: 592809353}
+--- !u!61 &608992820
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608992814}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 4.36, y: 3.89}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+>>>>>>> a549d6d (new version)
 --- !u!1 &739779252
 GameObject:
   m_ObjectHideFlags: 0
@@ -1465,7 +1534,11 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
+<<<<<<< HEAD
   m_Offset: {x: -0.000000834465, y: -0.28420687}
+=======
+  m_Offset: {x: 0, y: -0.14853084}
+>>>>>>> a549d6d (new version)
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1476,7 +1549,11 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
+<<<<<<< HEAD
   m_Size: {x: 1.4984305, y: 2.2915864}
+=======
+  m_Size: {x: 1.4984305, y: 2.588648}
+>>>>>>> a549d6d (new version)
   m_EdgeRadius: 0
 --- !u!50 &1071809360
 Rigidbody2D:
@@ -1493,7 +1570,11 @@ Rigidbody2D:
   m_Mass: 20
   m_LinearDrag: 0
   m_AngularDrag: 0.05
+<<<<<<< HEAD
   m_GravityScale: 0
+=======
+  m_GravityScale: 5
+>>>>>>> a549d6d (new version)
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1501,10 +1582,17 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
+<<<<<<< HEAD
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 6
+=======
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+>>>>>>> a549d6d (new version)
 --- !u!212 &1071809361
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1567,7 +1655,11 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -7.5, y: -3.5, z: 0}
+<<<<<<< HEAD
   m_LocalScale: {x: 0.4, y: 0.4, z: 1}
+=======
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+>>>>>>> a549d6d (new version)
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1735,7 +1827,11 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
+<<<<<<< HEAD
   m_Offset: {x: 0, y: 0}
+=======
+  m_Offset: {x: 0.20478411, y: 0}
+>>>>>>> a549d6d (new version)
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1746,7 +1842,11 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
+<<<<<<< HEAD
   m_Size: {x: 1, y: 1}
+=======
+  m_Size: {x: 1.4095681, y: 1}
+>>>>>>> a549d6d (new version)
   m_EdgeRadius: 0
 --- !u!50 &1275905879
 Rigidbody2D:
@@ -1991,7 +2091,11 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1635512980}
+<<<<<<< HEAD
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+=======
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+>>>>>>> a549d6d (new version)
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.015, y: 0.02, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2000,7 +2104,11 @@ RectTransform:
   - {fileID: 139434609}
   - {fileID: 333357854}
   m_Father: {fileID: 1903518938}
+<<<<<<< HEAD
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+=======
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+>>>>>>> a549d6d (new version)
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -1.72}
@@ -2200,7 +2308,11 @@ Transform:
   m_GameObject: {fileID: 1708518756}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+<<<<<<< HEAD
   m_LocalPosition: {x: -7.03, y: -1.53, z: 0}
+=======
+  m_LocalPosition: {x: 8.22, y: -1.53, z: 0}
+>>>>>>> a549d6d (new version)
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2220,7 +2332,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1071809358}
   scoremanager: {fileID: 592809353}
+<<<<<<< HEAD
   winddir: {fileID: 0}
+=======
+>>>>>>> a549d6d (new version)
   gamenotover: 1
 --- !u!1 &1884657853
 GameObject:

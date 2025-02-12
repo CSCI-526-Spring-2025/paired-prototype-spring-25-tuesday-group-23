@@ -10,9 +10,11 @@ public class Pinspawner : MonoBehaviour
     public Ball ball;
     public SCORE scoremanager;
     private Vector2 spikeareamin=new Vector2(-8.3f,-4.4f);
-    private Vector2 spikeareamax=new Vector2(8f,3.6f);
+
+    
+    private Vector2 spikeareamax=new Vector2(7.8f,3.6f);
     private List<GameObject> spikes=new List<GameObject>();
-    private bool firstspawn = true;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -26,34 +28,9 @@ public class Pinspawner : MonoBehaviour
         if(ball.gamenotover==false){
             StopAllCoroutines();
         }
-        int currScore = scoremanager.getScore();
-        if (currScore == 2 || currScore == 4) {
-            firstspawn = true;
-        }
-        if (currScore == 3 && firstspawn)
-        {
-            firstspawn = false;
-            Destroyspike();
-            spikenum=5;
-            StartCoroutine(randomspike());
-        } else if (currScore == 1 && firstspawn)
-        {
-            firstspawn = false;
-            Destroyspike();
-            spikenum = 5;
-            //generatespike();
-
-        }
+        
     }
-    IEnumerator randomspike(){
-        while(scoremanager.round !=1 ) // Keep running while round is 3
-        {
-            //generatespike();
-            yield return new WaitForSecondsRealtime(4f);
-            Destroyspike();
-            yield return new WaitForSecondsRealtime(1f);
-        }
-    }
+    
 
 
 
@@ -67,56 +44,43 @@ public class Pinspawner : MonoBehaviour
 
 
     
-    public void generatespike(List<float[]> values, List<float> widths)
+
+    public void generatespike(List<float[]> blockinfo, List<float> widthforblock)
     {
         Debug.Log("GenerateSpikes() is running!");
-        float x = values[0][0] + (2*widths[0]);
-        while(x <= values[1][0] - widths[1])
+
+        int numofblock = blockinfo.Count;
+        float spikewidth = spikeprefab.GetComponent<SpriteRenderer>().bounds.size.x;
+
+        for (int i = 0; i < numofblock; i++) // Access the info of each block
         {
-            Vector2 randomPosition = new Vector2(x, -4.42f);
-            Quaternion rotation = Quaternion.identity;
-            GameObject spike1 = Instantiate(spikeprefab, randomPosition, rotation);
-            spike1.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-            spikes.Add(spike1);
-            x = x + 0.5f;
+            float start = blockinfo[i][0] + widthforblock[i] /2;//block x + half block width
+            Vector2 randomPosition = new Vector2(start, -4.42f);
+
+            float length;
+            if (i == numofblock - 1) // Last block
+            {
+                length = spikeareamax[0] - blockinfo[i][0]; 
+            }
+            else // Normal case
+            {
+                length = (blockinfo[i + 1][0]-(widthforblock[i+1] /2)) - start;//next block position- half next block's width
+            }
+
+            while (length > spikewidth) // If remaining length is shorter than spikewidth, stop generating spikes
+            {
+                GameObject spike1 = Instantiate(spikeprefab, randomPosition, Quaternion.identity);
+                spikes.Add(spike1);
+                randomPosition += new Vector2(spikewidth, 0); // Corrected vector addition
+                length -= spikewidth;
+            }
         }
-
-
-        //Vector2 randomPosition = new Vector2(-5, -1.25f);
-        //Quaternion rotation = Quaternion.identity;
-        //GameObject spike1 = Instantiate(spikeprefab, randomPosition, rotation);
-        //spike1.transform.localScale = new Vector3(0.25f, 0.1f, 1f);
-        //spikes.Add(spike1);
-
-        //for(int i=0;i<spikenum;i++){
-        //    int randomnum=Random.Range(1,4);
-        //    Vector2 randomPosition=new Vector2(0,0);
-        //    Quaternion rotation = Quaternion.identity;
-        //    switch(randomnum){
-        //        case 1://on the ground
-        //            randomPosition=new Vector2(Random.Range(spikeareamin.x,spikeareamax.x),spikeareamin.y);
-        //            break;
-        //        case 2:// on the left wall
-        //            randomPosition=new Vector2(spikeareamin.x,Random.Range(spikeareamin.y,spikeareamax.y));
-        //            rotation=Quaternion.Euler(0,0,-90);
-        //            break;
-        //        case 3:// on the right wall
-        //            randomPosition=new Vector2(spikeareamax.x,Random.Range(spikeareamin.y,spikeareamax.y));
-        //            rotation=Quaternion.Euler(0,0,90);
-        //            break;
-
-        //    }
-        //while (Mathf.Abs(randomPosition.x - ball.wormholeIn.position.x) < 0.75f &&
-        //       Mathf.Abs(randomPosition.y - ball.wormholeIn.position.y) < 0.75f)
-        //{
-        //    Debug.Log("Position too close to wormhole, adjusting...");
-        //    randomPosition = new Vector2(Random.Range(spikeareamin.x,spikeareamax.x),spikeareamin.y);
-        //    rotation = Quaternion.identity;
-        //}
-        //Debug.Log("Trying to spawn spike at " + randomPosition);
-        //    //GameObject newspike=Instantiate(spikeprefab, randomPosition, rotation);
-        //    Debug.Log("spike is at "+randomPosition);
-        //    //spikes.Add(newspike);
-        //}
     }
+       
+>>>>>>> a549d6d (new version)
+
+
+       
+=======
 }
+>>>>>>> a549d6d (new version)

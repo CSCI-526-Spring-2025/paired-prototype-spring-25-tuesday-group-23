@@ -4,79 +4,75 @@ using System.Collections;
 
 public class SCORE : MonoBehaviour
 {   
-    public TextMeshProUGUI scoreText;  // This should be visible in the Inspector
+    // public TextMeshProUGUI scoreText;  // This should be visible in the Inspector
     public TextMeshProUGUI roundText;
-    public Rigidbody2D wormholein;
-    public Rigidbody2D wormholeout;
-    public int score1 = 0;
+    // public Rigidbody2D wormholein;
+    // public Rigidbody2D wormholeout;
+    //public int score1 = 0;
     public int round=1;
     public bool nextlevel=false;
     
 
-    public int getScore()
-    {
-        return score1;
-    }
+    // public int getScore()
+    // {
+    //     return score1;
+    // }
     void Start()
     {
-        UpdateScore();  // Fixed function name
+        
         roundText.gameObject.SetActive(false);
         checknextlevel();
 
     }
     
 
-    public void AddScore1(int points)
+    // public void AddScore1(int points)
+    // {
+    //     score1 += points;
+    //     //startgoal();
+    //     UpdateScore();  
+
+    // }
+    // void UpdateScore()  // Fixed function name
+    // {
+    //     //scoreText.text =  "Score : "+score1;  // Fixed incorrect reference
+    //     checknextlevel();
+    // }
+    public void checknextlevel()
     {
-        score1 += points;
-        //startgoal();
-        UpdateScore();  
-
+        if (!nextlevel) // Ensure coroutine runs only once per round
+        {
+            nextlevel = true;
+            Debug.Log("Round " + round + " started!");
+            StartCoroutine(showroundtext(round));
+        }
     }
-    void UpdateScore()  // Fixed function name
+
+    IEnumerator showroundtext(int round)
     {
-        //scoreText.text =  "Score : "+score1;  // Fixed incorrect reference
-        checknextlevel();
-    }
-    void checknextlevel(){
-        if(score1==0){
-            Debug.Log("start game!");
-            StartCoroutine(showroundtext(round));
-        }
-        else if (score1 == 1)
+        roundText.text = "Round " + round.ToString();
+        if (round > 1) 
         {
-        
-            Debug.Log("next level!");
-            round=2;
-            StartCoroutine(showroundtext(round));
-        
-        }
-        else if (score1 == 3)
-        {
-
-            Debug.Log("next level!");
-            round = 3;
-            StartCoroutine(showroundtext(round));
-
-        }
-
-    }
-    IEnumerator showroundtext(int round){
-        nextlevel=true;
-        if(round==1){
-            roundText.text="Round "+round.ToString();
-        } else if(round == 2){
-            roundText.text="Round "+round.ToString()+"\n Congratulation!";
-        } else if (round == 3){
-            roundText.text = "Round " + round.ToString() + "\n Congratulation!";
+            roundText.text += "\nCongratulation!";
         }
 
         roundText.gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(3f);
         
         roundText.gameObject.SetActive(false);
+        nextlevel = false; // Allow future calls
     }
 }
+        // else if (score1 == 3)
+        // {
+
+        //     Debug.Log("next level!");
+        //     round = 3;
+        //     StartCoroutine(showroundtext(round));
+
+        // }
+
+    
     /*
     public void AddScore2(int points)
     {
