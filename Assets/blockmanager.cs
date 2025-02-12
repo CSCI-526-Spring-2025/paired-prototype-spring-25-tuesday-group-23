@@ -29,12 +29,18 @@ public class blockmanager : MonoBehaviour
 
     void checklevel()
     {
-        //int currScore = scoremanager.getScore();
-
         if (ball.gamenotover == false)
         {
             StopAllCoroutines();
         }
+
+        //This is checking what level is at, supposed to reset blocks and generate them again 
+        if(scoremanager.round == 2){
+           scoremanager.round = 2; // Set to round 2
+           Destroyblock(); // Remove previous round's blocks
+           generateblock(); // Spawn new moving blocks
+        }
+       
         // else if (currScore == 1 && firstspawn)
         // {
         //     Destroyblock();
@@ -99,10 +105,53 @@ public class blockmanager : MonoBehaviour
                 Debug.Log("Block size: " +blockwidth);
                 blocks.Add(newblock1);//for destroyblock needs
 
+                //Add moving blocks 
+                if (scoremanager.round == 1)
+                {
+                   MovingBlock movingScript = newblock1.AddComponent<MovingBlock>();
+                   movingScript.SetMovementParams(2f, 3f); // Speed = 2, Distance = 3
+                }
             }
 
             pinspawner.generatespike(blockinfo, widthforblock);
                        
+        }
+        else if (scoremanager.round == 2) // Moving blocks for round 2
+        {
+            List<float[]> blockinfo = new List<float[]>
+            {
+                new float[] { -3.5f, 1f, 0.3f }, 
+                new float[] { 2.5f, -2f, 0.25f }
+            };
+
+            List<float> widthforblock = new List<float>();
+
+            foreach (var list in blockinfo)
+            {
+                Vector2 randomPosition = new Vector2(list[0], list[1]);
+                GameObject newblock1 = Instantiate(blockprefab, randomPosition, Quaternion.identity);
+                //modify scale of each block(x ,y,z)
+                newblock1.transform.localScale = new Vector3(list[2],0.1f,1);
+
+                SpriteRenderer sr = newblock1.GetComponent<SpriteRenderer>();
+                //get real size of block
+                float blockwidth=sr.bounds.size[0];
+                //add such block's width to widthforblock list
+                widthforblock.Add(blockwidth);
+                Debug.Log("Block size: " +blockwidth);
+                blocks.Add(newblock1);//for destroyblock needs
+
+                //Add moving blocks 
+                if (scoremanager.round == 2)
+                {
+                   MovingBlock movingScript = newblock1.AddComponent<MovingBlock>();
+                   movingScript.SetMovementParams(2f, 3f); // Speed = 2, Distance = 3
+                }
+
+            }
+
+            pinspawner.generatespike(blockinfo, widthforblock);
+
         }
         //for (int i = 0; i < blockNum; i++)
         //{

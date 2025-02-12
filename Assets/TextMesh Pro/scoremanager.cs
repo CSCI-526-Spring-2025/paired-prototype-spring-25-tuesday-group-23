@@ -9,7 +9,7 @@ public class SCORE : MonoBehaviour
     // public Rigidbody2D wormholein;
     // public Rigidbody2D wormholeout;
     //public int score1 = 0;
-    public int round=1;
+    public int round=2;
     public bool nextlevel=false;
     
 
