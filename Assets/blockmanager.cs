@@ -15,6 +15,7 @@ public class blockmanager : MonoBehaviour
     //private Vector2 blockareamin = new Vector2(-7f, -1f);
     //private Vector2 blockareamax = new Vector2(7f, 2f);
     private List<GameObject> blocks = new List<GameObject>();
+    private bool blocksSpawned = false; // Ensure blocks only generate once
     //private bool firstspawn = true;
     void Start()
     {
@@ -35,8 +36,9 @@ public class blockmanager : MonoBehaviour
         }
 
         //This is checking what level is at, supposed to reset blocks and generate them again 
-        if(scoremanager.round == 2){
-           scoremanager.round = 2; // Set to round 2
+        if(scoremanager.round == 2 && !blocksSpawned){
+           scoremanager.round = 2; // Set to round 
+           blocksSpawned = true;  // Prevents re-triggering
            Destroyblock(); // Remove previous round's blocks
            generateblock(); // Spawn new moving blocks
         }
@@ -61,13 +63,18 @@ public class blockmanager : MonoBehaviour
 
     void Destroyblock()
     {
-        Debug.Log("Destroying blocks...");
+        Debug.Log("Destroying existing blocks...");
+
         foreach (GameObject block in blocks)
         {
-            Destroy(block);
+            if (block != null)
+            {
+                Debug.Log($"Destroying {block.name} at {block.transform.position}");
+                Destroy(block);
+            }
         }
-        blocks.Clear();
 
+        blocks.Clear(); // Clear list after confirming destruction
     }
 
     void generateblock()
@@ -105,12 +112,6 @@ public class blockmanager : MonoBehaviour
                 Debug.Log("Block size: " +blockwidth);
                 blocks.Add(newblock1);//for destroyblock needs
 
-                //Add moving blocks 
-                if (scoremanager.round == 1)
-                {
-                   MovingBlock movingScript = newblock1.AddComponent<MovingBlock>();
-                   movingScript.SetMovementParams(2f, 3f); // Speed = 2, Distance = 3
-                }
             }
 
             pinspawner.generatespike(blockinfo, widthforblock);
@@ -118,10 +119,12 @@ public class blockmanager : MonoBehaviour
         }
         else if (scoremanager.round == 2) // Moving blocks for round 2
         {
+            Debug.Log("Current Round: " + scoremanager.round);
             List<float[]> blockinfo = new List<float[]>
             {
                 new float[] { -3.5f, 1f, 0.3f }, 
-                new float[] { 2.5f, -2f, 0.25f }
+                new float[] { 2.5f, -2f, 0.25f },
+                new float[] { 4f, 0.5f, 0.25f }
             };
 
             List<float> widthforblock = new List<float>();
@@ -142,11 +145,16 @@ public class blockmanager : MonoBehaviour
                 blocks.Add(newblock1);//for destroyblock needs
 
                 //Add moving blocks 
-                if (scoremanager.round == 2)
-                {
-                   MovingBlock movingScript = newblock1.AddComponent<MovingBlock>();
-                   movingScript.SetMovementParams(2f, 3f); // Speed = 2, Distance = 3
-                }
+                 MovingBlock movingScript = newblock1.AddComponent<MovingBlock>();
+                 if (movingScript == null)
+                    {
+                        Debug.LogError("Level 2 Block: MovingBlock script was NOT added!");
+                    }
+                    else
+                    {
+                        Debug.Log("Level 2 Block: MovingBlock script successfully added!");
+                    }
+                 movingScript.SetMovementParams(1f, 2f); // Speed = 2, Distance = 3
 
             }
 

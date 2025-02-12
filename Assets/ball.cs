@@ -97,7 +97,8 @@ public class Ball : MonoBehaviour
         //}
         if(collision.gameObject.CompareTag("hoop")){
             if(scoremanager.round==1){
-                scoremanager.round=2;
+                Debug.Log("Scored! Advancing to next round.");
+                scoremanager.round++;
                 scoremanager.checknextlevel();
                 //reset player and ball position
                 player.transform.position =new Vector2(-7.5f, -3.5f);
@@ -161,6 +162,16 @@ public class Ball : MonoBehaviour
         Debug.Log("attach to parent");
         transform.localPosition = new Vector2(1.1f, 1.1f); // Adjust position relative to player
     }
+
+    void ResetPositions()
+    {
+        // Reset player and ball positions
+        player.transform.position = new Vector2(-7.5f, -3.5f);
+        rb.position = new Vector2(-7.5f, 2.5f);
+        rb.velocity = Vector2.zero;
+        Debug.Log("Ball and player reset for next round.");
+    }
+
 
     public void ReleaseBall(float strength,float angle)
     {

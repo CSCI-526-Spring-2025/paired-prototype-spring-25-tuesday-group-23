@@ -9,7 +9,7 @@ public class SCORE : MonoBehaviour
     // public Rigidbody2D wormholein;
     // public Rigidbody2D wormholeout;
     //public int score1 = 0;
-    public int round=2;
+    public int round=1;
     public bool nextlevel=false;
     
 
@@ -40,6 +40,7 @@ public class SCORE : MonoBehaviour
     // }
     public void checknextlevel()
     {
+        Debug.Log("checknextlevel() called. Current round: " + round + ", nextlevel: " + nextlevel);
         if (!nextlevel) // Ensure coroutine runs only once per round
         {
             nextlevel = true;
