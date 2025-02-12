@@ -17,8 +17,8 @@ public class player : MonoBehaviour
     private bool adjuststrength = false;
     private bool readyshoot = false;
     private bool spaceReleased = true;
-    public TextMeshProUGUI angleText;
-    public TextMeshProUGUI strengthText;
+    //public TextMeshProUGUI angleText;
+    //public TextMeshProUGUI strengthText;
     public GameObject arrow;
     private RectTransform arrowTransform;
     public Slider strengthBar;
@@ -26,7 +26,7 @@ public class player : MonoBehaviour
     void Start()
     {
         rb = GameObject.Find("player").GetComponent<Rigidbody2D>();
-        transform.position = new Vector2(0, -3.6f);
+        transform.position = new Vector2(-7.5f, -3.5f);
         arrowTransform = arrow.GetComponent<RectTransform>();
         arrow.SetActive(false);
         strengthBar.gameObject.SetActive(false);
@@ -61,7 +61,7 @@ public class player : MonoBehaviour
             if (angle >= 160f) { angle = 160f; dir = -1f; }
             else if (angle <= 20f) { angle = 20f; dir = 1f; }
 
-            angleText.text = "Angle: " + angle.ToString("F1");
+            //angleText.text = "Angle: " + angle.ToString("F1");
             arrowTransform.rotation = Quaternion.Euler(0, 0, angle);
             
             if (Input.GetKeyDown(KeyCode.Space) && spaceReleased)
@@ -88,13 +88,16 @@ public class player : MonoBehaviour
         adjuststrength = true;
         float dir = 1f;
         strengthBar.gameObject.SetActive(true);
+        float min_strength = 10f;
+        float max_strength = 20f;
+        float increment = 1f;
         while (adjuststrength)
         {
-            strength += dir * 9f * Time.deltaTime;
-            if (strength >=40f) { strength = 40f; dir = -1f; }
-            else if (strength < 20f) { strength = 20f; dir = 1f; }
+            strength += dir * 3f * Time.deltaTime;
+            if (strength >=max_strength) { strength = max_strength; dir = (-1f * increment); }
+            else if (strength < min_strength) { strength = min_strength; dir = increment; }
 
-            strengthText.text = "Strength: " + strength.ToString("F1");
+            //strengthText.text = "Strength: " + strength.ToString("F1");
             strengthBar.value=strength;
             if (Input.GetKeyDown(KeyCode.Space) && spaceReleased)
             {

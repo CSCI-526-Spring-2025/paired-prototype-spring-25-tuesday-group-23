@@ -10,8 +10,8 @@ public class Ball : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 shootforce;
     private Vector2 winddirection;
-    public Transform wormholeIn;  
-    public Transform wormholeOut;
+    //public Transform wormholeIn;  
+    //public Transform wormholeOut;
     private float windstrength;
     private Vector2 windforce; // Declare windforce
     public GameObject winddir;
@@ -23,29 +23,30 @@ public class Ball : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        rb.position = new Vector2(-3, 2.5f);
+
+        rb.position = new Vector2(-7.5f, 2.5f);
         scoremanager = FindObjectOfType<SCORE>();
         PhysicsMaterial2D ballMaterial = new PhysicsMaterial2D();
         ballrenderer=GetComponent<SpriteRenderer>();
         windTransform = winddir.GetComponent<RectTransform>();
-        ChangeWind();
+        //ChangeWind();
         
         //StartCoroutine(Fickerball());
        
     }
 
 
-    void ChangeWind()//call whenever start new level
-    {
+    //void ChangeWind()//call whenever start new level
+    //{
        
-        winddirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
-        windstrength = 5f; 
-        // Calculate wind angle using Atan2
-        float windAngle = Mathf.Atan2(winddirection.y, winddirection.x) * Mathf.Rad2Deg;
-        windTransform.rotation = Quaternion.Euler(0, 0, windAngle);
-        scoremanager.nextlevel=false;
+    //    winddirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+    //    windstrength = 5f; 
+    //    // Calculate wind angle using Atan2
+    //    float windAngle = Mathf.Atan2(winddirection.y, winddirection.x) * Mathf.Rad2Deg;
+    //    windTransform.rotation = Quaternion.Euler(0, 0, windAngle);
+    //    scoremanager.nextlevel=false;
 
-    }
+    //}
 
     //IEnumerator Fickerball(){
     //    while(gamenotover){
@@ -65,21 +66,34 @@ public class Ball : MonoBehaviour
 
     void FixedUpdate()
     {
-        windforce = new Vector2(winddirection.x * windstrength, winddirection.y * windstrength);
-        rb.AddForce(windforce, ForceMode2D.Force);
+        //windforce = new Vector2(winddirection.x * windstrength, winddirection.y * windstrength);
+        //rb.AddForce(windforce, ForceMode2D.Force);
     }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("netbottom"))
+        {
+            ballrenderer.sortingOrder += 1;
+            Debug.Log("sorting order increased "+ballrenderer.sortingOrder);
+        
 
+        }
+    }
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("net"))
+        if (collision.gameObject.CompareTag("nettop"))
         {
+
             scoremanager.AddScore1(1);
+            ballrenderer.sortingOrder -= 1;
+            Debug.Log("sorting order decreased " + ballrenderer.sortingOrder);
+
             rb.velocity = rb.velocity * 0.5f; 
         }
-        if(collision.gameObject.CompareTag("wormholein"))
-        {
-            transform.position=wormholeOut.position;
-        }
+        //if(collision.gameObject.CompareTag("wormholein"))
+        //{
+        //    //transform.position=wormholeOut.position;
+        //}
         if(collision.gameObject.CompareTag("spike"))
         {
             Debug.Log("Game over!");

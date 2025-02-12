@@ -11,7 +11,8 @@ TagManager:
   - wormholein
   - wormholeout
   - spike
-  - block
+  - nettop
+  - netbottom
   layers:
   - Default
   - TransparentFX

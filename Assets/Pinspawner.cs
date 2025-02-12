@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Unity.Collections.AllocatorManager;
 
 public class Pinspawner : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class Pinspawner : MonoBehaviour
     void Start()
     {
         Debug.Log("spike is runnnig");
-        generatespike();
+        //generatespike();
     }
     void Update(){
         checklevel();
@@ -40,14 +41,14 @@ public class Pinspawner : MonoBehaviour
             firstspawn = false;
             Destroyspike();
             spikenum = 5;
-            generatespike();
+            //generatespike();
 
         }
     }
     IEnumerator randomspike(){
         while(scoremanager.round !=1 ) // Keep running while round is 3
         {
-            generatespike();
+            //generatespike();
             yield return new WaitForSecondsRealtime(4f);
             Destroyspike();
             yield return new WaitForSecondsRealtime(1f);
@@ -66,38 +67,56 @@ public class Pinspawner : MonoBehaviour
 
 
     
-    void generatespike()
+    public void generatespike(List<float[]> values, List<float> widths)
     {
         Debug.Log("GenerateSpikes() is running!");
-        for(int i=0;i<spikenum;i++){
-            int randomnum=Random.Range(1,4);
-            Vector2 randomPosition=new Vector2(0,0);
+        float x = values[0][0] + (2*widths[0]);
+        while(x <= values[1][0] - widths[1])
+        {
+            Vector2 randomPosition = new Vector2(x, -4.42f);
             Quaternion rotation = Quaternion.identity;
-            switch(randomnum){
-                case 1://on the ground
-                    randomPosition=new Vector2(Random.Range(spikeareamin.x,spikeareamax.x),spikeareamin.y);
-                    break;
-                case 2:// on the left wall
-                    randomPosition=new Vector2(spikeareamin.x,Random.Range(spikeareamin.y,spikeareamax.y));
-                    rotation=Quaternion.Euler(0,0,-90);
-                    break;
-                case 3:// on the right wall
-                    randomPosition=new Vector2(spikeareamax.x,Random.Range(spikeareamin.y,spikeareamax.y));
-                    rotation=Quaternion.Euler(0,0,90);
-                    break;
-
-            }
-            while (Mathf.Abs(randomPosition.x - ball.wormholeIn.position.x) < 0.75f &&
-                   Mathf.Abs(randomPosition.y - ball.wormholeIn.position.y) < 0.75f)
-            {
-                Debug.Log("Position too close to wormhole, adjusting...");
-                randomPosition = new Vector2(Random.Range(spikeareamin.x,spikeareamax.x),spikeareamin.y);
-                rotation = Quaternion.identity;
-            }
-            Debug.Log("Trying to spawn spike at " + randomPosition);
-            GameObject newspike=Instantiate(spikeprefab, randomPosition, rotation);
-            Debug.Log("spike is at "+randomPosition);
-            spikes.Add(newspike);
+            GameObject spike1 = Instantiate(spikeprefab, randomPosition, rotation);
+            spike1.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            spikes.Add(spike1);
+            x = x + 0.5f;
         }
+
+
+        //Vector2 randomPosition = new Vector2(-5, -1.25f);
+        //Quaternion rotation = Quaternion.identity;
+        //GameObject spike1 = Instantiate(spikeprefab, randomPosition, rotation);
+        //spike1.transform.localScale = new Vector3(0.25f, 0.1f, 1f);
+        //spikes.Add(spike1);
+
+        //for(int i=0;i<spikenum;i++){
+        //    int randomnum=Random.Range(1,4);
+        //    Vector2 randomPosition=new Vector2(0,0);
+        //    Quaternion rotation = Quaternion.identity;
+        //    switch(randomnum){
+        //        case 1://on the ground
+        //            randomPosition=new Vector2(Random.Range(spikeareamin.x,spikeareamax.x),spikeareamin.y);
+        //            break;
+        //        case 2:// on the left wall
+        //            randomPosition=new Vector2(spikeareamin.x,Random.Range(spikeareamin.y,spikeareamax.y));
+        //            rotation=Quaternion.Euler(0,0,-90);
+        //            break;
+        //        case 3:// on the right wall
+        //            randomPosition=new Vector2(spikeareamax.x,Random.Range(spikeareamin.y,spikeareamax.y));
+        //            rotation=Quaternion.Euler(0,0,90);
+        //            break;
+
+        //    }
+        //while (Mathf.Abs(randomPosition.x - ball.wormholeIn.position.x) < 0.75f &&
+        //       Mathf.Abs(randomPosition.y - ball.wormholeIn.position.y) < 0.75f)
+        //{
+        //    Debug.Log("Position too close to wormhole, adjusting...");
+        //    randomPosition = new Vector2(Random.Range(spikeareamin.x,spikeareamax.x),spikeareamin.y);
+        //    rotation = Quaternion.identity;
+        //}
+        //Debug.Log("Trying to spawn spike at " + randomPosition);
+        //    //GameObject newspike=Instantiate(spikeprefab, randomPosition, rotation);
+        //    Debug.Log("spike is at "+randomPosition);
+        //    //spikes.Add(newspike);
+        //}
     }
 }

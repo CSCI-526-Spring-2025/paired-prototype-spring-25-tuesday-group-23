@@ -35,7 +35,7 @@ public class SCORE : MonoBehaviour
     }
     void UpdateScore()  // Fixed function name
     {
-        scoreText.text =  "Score : "+score1;  // Fixed incorrect reference
+        //scoreText.text =  "Score : "+score1;  // Fixed incorrect reference
         checknextlevel();
     }
     void checknextlevel(){

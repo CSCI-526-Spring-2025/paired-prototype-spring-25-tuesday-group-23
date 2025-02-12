@@ -5,8 +5,8 @@ using UnityEngine;
 public class hoop : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private float speed=2f;
-    private float positionx=0f;
+    private float speed=0f;
+    private float positionx=6f;
     private float dir=1f;
     public SCORE scoremanager;
     // Start is called before the first frame update
@@ -14,7 +14,7 @@ public class hoop : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         scoremanager = FindObjectOfType<SCORE>();
-        transform.position=new Vector2(0f,3f);//initial position for hoop
+        transform.position=new Vector2(6f,3.5f);//initial position for hoop
         
     }
 
