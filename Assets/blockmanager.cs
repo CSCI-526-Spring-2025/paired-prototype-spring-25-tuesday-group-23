@@ -154,7 +154,7 @@ public class blockmanager : MonoBehaviour
                     {
                         Debug.Log("Level 2 Block: MovingBlock script successfully added!");
                     }
-                 movingScript.SetMovementParams(1f, 2f); // Speed = 2, Distance = 3
+                 movingScript.SetMovementParams(0.25f, 1f); // Speed = 2, Distance = 3
 
             }
 

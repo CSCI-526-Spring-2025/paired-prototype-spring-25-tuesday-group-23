@@ -27,6 +27,8 @@ public class player : MonoBehaviour
     private RectTransform arrowTransform;
     public Slider strengthBar;
     private bool playerinair=false;
+    private Transform movingBlock; 
+    private Vector2 lastBlockPosition;  
 
     void Start()
     {
@@ -60,6 +62,33 @@ public class player : MonoBehaviour
             StartCoroutine(ShootBall());
         }
     }
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<MovingBlock>()) // Check if it has the MovingBlock script
+        {
+            movingBlock = collision.transform;  
+            lastBlockPosition = movingBlock.position;  
+            playerinair = false;
+        }
+        else if (collision.gameObject.CompareTag("block") || collision.gameObject.CompareTag("topbotwall"))
+        {
+            playerinair = false;
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<MovingBlock>())
+        {
+            movingBlock = null;  
+        }
+        if (collision.gameObject.CompareTag("block") || collision.gameObject.CompareTag("topbotwall"))
+        {
+            playerinair = true;
+        }
+    }
+
+    /*
     void OnCollisionEnter2D(Collision2D collision){
         if (collision.gameObject.CompareTag("block")  || collision.gameObject.CompareTag("topbotwall")){
             playerinair=false;
@@ -70,6 +99,7 @@ public class player : MonoBehaviour
             playerinair=true;
         }
     }
+    */
 
     IEnumerator ModifyAngle()
     {
@@ -186,6 +216,36 @@ public class player : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (movingBlock != null)
+        {
+            Vector2 movement = (Vector2)movingBlock.position - lastBlockPosition;
+            transform.position += (Vector3)movement; 
+            lastBlockPosition = movingBlock.position;
+        }
+
+        if (playerinair)
+        {
+            rb.velocity = Vector2.zero;
+        }
+        else
+        {
+            rb.velocity = new Vector2(movementX * speed, 0);
+        }
+
+        if (shootstep != 3)
+        {
+            angle += anglead * 3f;
+            strength += strengthad * 3f;
+        }
+
+        // Update arrow and strength bar positions
+        arrow.transform.position = new Vector2(rb.position.x + 1.03f, rb.position.y + 1.13f);
+        strengthBar.transform.position = new Vector2(rb.position.x + 1.5f, rb.position.y + 2.5f);
+    }
+
+    /*
+    void FixedUpdate()
+    {
         if(playerinair){
             rb.velocity = new Vector2(0, 0);
         }else{
@@ -198,4 +258,5 @@ public class player : MonoBehaviour
         arrow.transform.position=new Vector2(rb.position.x+1.03f, rb.position.y+1.13f);
         strengthBar.transform.position=new Vector2(rb.position.x+1.5f, rb.position.y+2.5f);
     }
+    */
 }
