@@ -14,22 +14,22 @@ public class arrowui : MonoBehaviour
         arrowtransform=GetComponent<RectTransform>();
         player = FindObjectOfType<player>();
         transform.SetParent(player.transform);
-        transform.localPosition = new Vector2(1.25f, 2f);
+        transform.localPosition = new Vector2(0,0);
         //gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(player.shootstep==1){
-            gameObject.SetActive(true);
-            /*
-            angle += dir * 60f * Time.deltaTime;
-            if (angle >= 135f) { angle = 135f; dir = -1f; }
-            else if (angle <= 45f) { angle = 45f; dir = 1f; }
-            arrowtransform.rotation = Quaternion.Euler(0, 0, angle);
-            */
-        }
+        //if(player.shootstep==1){
+        //    gameObject.SetActive(true);
+        //    /*
+        //    angle += dir * 60f * Time.deltaTime;
+        //    if (angle >= 135f) { angle = 135f; dir = -1f; }
+        //    else if (angle <= 45f) { angle = 45f; dir = 1f; }
+        //    arrowtransform.rotation = Quaternion.Euler(0, 0, angle);
+        //    */
+        //}
         
     }
 }

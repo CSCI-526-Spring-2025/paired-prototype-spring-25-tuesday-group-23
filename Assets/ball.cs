@@ -96,15 +96,19 @@ public class Ball : MonoBehaviour
         //    //transform.position=wormholeOut.position;
         //}
         if(collision.gameObject.CompareTag("hoop")){
-            if(scoremanager.round==1){
+            if (scoremanager.round == 1)
+            {
                 Debug.Log("Scored! Advancing to next round.");
                 scoremanager.round++;
                 scoremanager.checknextlevel();
-                //reset player and ball position
-                player.transform.position =new Vector2(-7.5f, -3.5f);
-                rb.position = new Vector2(-7.5f, 2.5f);
-                rb.velocity=Vector2.zero;
-                
+                ResetPositions();
+
+            }
+            else if (scoremanager.round == 2) {
+                Debug.Log("Scored! Advancing to next round.");
+                scoremanager.round++;
+                scoremanager.checknextlevel();
+                ResetPositions();
             }
 
             // else{
@@ -129,7 +133,7 @@ public class Ball : MonoBehaviour
         {
             Debug.Log("Game over!");
             gamenotover=false;
-            StopCoroutine("Fickerball"); 
+            //StopCoroutine("Fickerball"); 
             ballrenderer.enabled=true;
             scoremanager.roundText.gameObject.SetActive(true);
             scoremanager.roundText.text="Game Over :(";
@@ -152,9 +156,9 @@ public class Ball : MonoBehaviour
         {
             player = FindObjectOfType<player>(); // 
         }
-        
+        player.ResetShootingParameters();
         transform.SetParent(player.transform); // Attach ball to player
-        player.shootstep=1;
+        //player.shootstep=1;
         // if(scoremanager.getScore() >= 3)
         // {
         //     player.speed = 0f;
@@ -175,7 +179,7 @@ public class Ball : MonoBehaviour
 
     public void ReleaseBall(float strength,float angle)
     {
-        player.shootstep=0;
+        //player.shootstep=0;
         rb.isKinematic=false;
         transform.SetParent(null);
        
@@ -198,7 +202,7 @@ public class Ball : MonoBehaviour
                     player.transform.position = rb.transform.position;
                     Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
                     Debug.Log("BALL VELOCITY:"+rb.velocity);
-                    playerRb.velocity = new Vector2(0, rb.velocity.y);
+                    playerRb.velocity = new Vector2(0,  -1f);
                     
                     yield return null;
                 }

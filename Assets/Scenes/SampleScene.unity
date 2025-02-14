@@ -1471,8 +1471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ball: {fileID: 1708518761}
-  speed: 5
-  shootstep: 0
+  speed: 10
   arrow: {fileID: 930321529}
   strengthBar: {fileID: 1635512982}
 --- !u!61 &1071809359
@@ -1532,7 +1531,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 20
+  m_Mass: 30
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 5
