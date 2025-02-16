@@ -42,6 +42,8 @@ public class SCORE : MonoBehaviour
             if (round > 1)
             {
                 roundText.text += "\nCongratulation!";
+                GameObject obj = GameObject.FindGameObjectWithTag("hoop");
+                obj.transform.position = new Vector2(5.5f, 0.5f);
             }            
             nextlevel = false; // Allow future calls
         }

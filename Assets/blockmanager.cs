@@ -102,14 +102,25 @@ public class blockmanager : MonoBehaviour
             Debug.Log("Current Round: " + scoremanager.round);
             List<float[]> blockinfo = new List<float[]>
             {
-                new float[] { -3.5f, 1f, 0.3f }, 
-                new float[] { 2.5f, -2f, 0.25f },
-                new float[] { 4f, 0.5f, 0.25f }
+                new float[] { 4f, -4f, 0.1f },
+                new float[] { 4f, -3f, 0.1f },
+                new float[] { 4f, -2f, 0.1f },
+                new float[] { 4f, -1f, 0.1f },
+                new float[] { 4f, 0f, 0.1f },
+                new float[] { 4f, 1f, 0.1f },
+                new float[] { 5.3f, 2f, 0.4f },
+            };
+
+            List<float[]> movingblockinfo = new List<float[]>
+            {
+                new float[] { -5f, -1.5f, 0.25f },
+                new float[] { -0.4f, 1.5f, 0.15f },
+                new float[] { 6.5f, -3.5f, 0.15f },
             };
 
             List<float> widthforblock = new List<float>();
 
-            foreach (var list in blockinfo)
+            foreach (var list in movingblockinfo)
             {
                 Vector2 randomPosition = new Vector2(list[0], list[1]);
                 GameObject newblock1 = Instantiate(blockprefab, randomPosition, Quaternion.identity);
@@ -137,6 +148,24 @@ public class blockmanager : MonoBehaviour
                  movingScript.SetMovementParams(0.25f, 1f); 
 
             }
+
+            foreach (var list in blockinfo)
+            {
+                Vector2 randomPosition = new Vector2(list[0], list[1]);
+                GameObject newblock1 = Instantiate(blockprefab, randomPosition, Quaternion.identity);
+                //modify scale of each block(x ,y,z)
+                newblock1.transform.localScale = new Vector3(list[2], 0.1f, 1);
+
+                SpriteRenderer sr = newblock1.GetComponent<SpriteRenderer>();
+                //get real size of block
+                float blockwidth = sr.bounds.size[0];
+                //add such block's width to widthforblock list
+                widthforblock.Add(blockwidth);
+                Debug.Log("Block size: " + blockwidth);
+                blocks.Add(newblock1);//for destroyblock needs
+            }
+
+            
 
             pinspawner.generatespike(blockinfo, widthforblock);
 

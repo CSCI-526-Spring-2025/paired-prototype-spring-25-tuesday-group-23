@@ -21,24 +21,7 @@ public class hoop : MonoBehaviour
     
     // Update is called once per frame,uncommented it for level two
     void Update()
-    {
-        if(scoremanager.round>1){
-            positionx+=dir * speed * Time.deltaTime;
-            if(positionx<=-3f){
-                dir=1;
-                positionx=-3f;
-            }
-            else if(positionx>=3f){
-                dir=-1;
-                positionx=3f;
-            }
-        
-        
-            rb.MovePosition(new Vector2(positionx,3f));
-        }
-        
-        
-        
+    {     
     }
     
 }
