@@ -15,7 +15,7 @@ public class blockmanager : MonoBehaviour
     private float positionx;
     private float positiony;
     
-    public float speed = 0.7f;
+    
     private Dictionary<GameObject, (float initialPosition, int dir, float range)> movementData = new Dictionary<GameObject, (float, int,float)>();
     private List<GameObject> blocks = new List<GameObject>();
     private List<GameObject> moveblocks=new List<GameObject>();
@@ -152,12 +152,12 @@ public class blockmanager : MonoBehaviour
 
         }
         else{//round ==3
-            speed=1f;
+            
             //still block:{5,-0.83}{0.33,0.1}
             //still block:{4.13,-2.9}{0.1,0.4}
-            GameObject stblock = Instantiate(blockprefab, new Vector2(5.5f, 0), Quaternion.identity);
+            GameObject stblock = Instantiate(blockprefab, new Vector2(5.3f, 0), Quaternion.identity);
             stblock.transform.localScale = new Vector3(0.33f, 0.1f, 1);
-            GameObject hrblock = Instantiate(blockprefab, new Vector2(4.5f, -2.43f), Quaternion.identity);
+            GameObject hrblock = Instantiate(blockprefab, new Vector2(4.25f, -2.43f), Quaternion.identity);
             hrblock.transform.localScale = new Vector3(0.08f, 0.53f, 1);
 
             //leftright
@@ -214,7 +214,8 @@ public class blockmanager : MonoBehaviour
         //Debug.Log("now moving");
         rb.bodyType = RigidbodyType2D.Kinematic;
         var (initialX, dir,range) = movementData[block];
-        float newX = rb.position.x + dir * speed * Time.deltaTime;
+        //Debug.Log("wtf is the speed:"+speed);
+        float newX = rb.position.x + dir * 1 * Time.deltaTime;
         if (newX <= initialX - range)
         {
             movementData[block] = (initialX, 1,range); 
@@ -235,7 +236,8 @@ public class blockmanager : MonoBehaviour
         Debug.Log("now moving y");
         rb.bodyType = RigidbodyType2D.Kinematic;
         var (initialY, dir,range) = movementData[block];
-        float newY = rb.position.y + dir * speed * Time.deltaTime;
+        //Debug.Log("wtf is the speed:"+speed);
+        float newY = rb.position.y + dir * 1 * Time.deltaTime;
         if (newY <= initialY - range)
         {
             movementData[block] = (initialY, 2,range); 
