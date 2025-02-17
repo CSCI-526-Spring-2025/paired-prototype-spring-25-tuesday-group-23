@@ -15,7 +15,7 @@ public class blockmanager : MonoBehaviour
     private float positionx;
     private float positiony;
     
-    public float speed = 2f;
+    public float speed = 1f;
     private Dictionary<GameObject, (float initialPosition, int dir, float range)> movementData = new Dictionary<GameObject, (float, int,float)>();
     private List<GameObject> blocks = new List<GameObject>();
     private List<GameObject> moveblocks=new List<GameObject>();
@@ -123,7 +123,7 @@ public class blockmanager : MonoBehaviour
                        
         }
         else if(scoremanager.round==2){
-            speed=2f;
+            speed=1f;
 
             GameObject blockblock = Instantiate(blockprefab, new Vector2(-2, 0.8f), Quaternion.identity);
             blockblock.transform.localScale = new Vector3(1f, 0.1f, 1);
@@ -152,7 +152,7 @@ public class blockmanager : MonoBehaviour
 
         }
         else{//round ==3
-            speed=3f;
+            speed=1.5f;
             //still block:{5,-0.83}{0.33,0.1}
             //still block:{4.13,-2.9}{0.1,0.4}
             GameObject stblock = Instantiate(blockprefab, new Vector2(5.5f, 0), Quaternion.identity);
