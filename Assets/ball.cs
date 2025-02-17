@@ -19,6 +19,7 @@ public class Ball : MonoBehaviour
     
     // private int flickcounter=0;
     // private bool isVisible=true;
+    public blockmanager Blockmanager;
     public bool gamenotover=true;
     private SpriteRenderer ballrenderer;
     void Start()
@@ -106,9 +107,21 @@ public class Ball : MonoBehaviour
                 
             }
 
-            // else{
 
-            // }
+            else if(scoremanager.round==2){
+                scoremanager.nextlevel=false;
+                scoremanager.round=3;
+                Blockmanager.firstgenblock=true;
+                scoremanager.checknextlevel();
+                rb.velocity=Vector2.zero;
+                player.transform.position =new Vector2(-7.5f, -3.5f);
+                rb.position = new Vector2(-7.4f, -2.5f);
+            }
+            else if(scoremanager.round==3){
+                scoremanager.nextlevel=false;
+                scoremanager.round=4;
+                scoremanager.checknextlevel();
+            }
         }
         
         
@@ -120,10 +133,7 @@ public class Ball : MonoBehaviour
             Debug.Log("Collided with Player!");
             attachplayer();
         }
-        // else if (collision.gameObject.CompareTag("block")){
-        //     Debug.Log("add force to prevent stuck on the block");
-        //     rb.velocity = new Vector2(5f, rb.velocity.y + 1f);
-        // }
+       
         else if(collision.gameObject.CompareTag("spike"))
         {
             Debug.Log("Game over!");
@@ -135,10 +145,7 @@ public class Ball : MonoBehaviour
             Time.timeScale=0;
         }
         
-        // else if (collision.gameObject.CompareTag("hoop")){
-        //     Debug.Log("ouch is bar");
-        //     rb.velocity=new Vector2(rb.velocity.x,-rb.velocity.y*0.5f);
-        // }
+       
         
     }
     void attachplayer(){

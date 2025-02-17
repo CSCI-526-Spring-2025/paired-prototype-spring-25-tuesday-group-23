@@ -6,56 +6,43 @@ using static Unity.Collections.AllocatorManager;
 public class Pinspawner : MonoBehaviour
 {
     public GameObject spikeprefab;
-    private int spikenum=2;
+   
     public Ball ball;
     public SCORE scoremanager;
     private Vector2 spikeareamin=new Vector2(-8.3f,-4.4f);
     private Vector2 spikeareamax=new Vector2(7.8f,3.6f);
     private List<GameObject> spikes=new List<GameObject>();
-    //private bool firstspawn = true;
+    private bool firstspawn = true;
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log("spike is runnnig");
         //generatespike();
     }
-    // void Update(){
-    //     checklevel();
-    // }
-    // void checklevel(){
-    //     if(ball.gamenotover==false){
-    //         StopAllCoroutines();
-    //     }
-    //     int currScore = scoremanager.getScore();
-    //     if (currScore == 2 || currScore == 4) {
-    //         firstspawn = true;
-    //     }
-    //     if (currScore == 3 && firstspawn)
-    //     {
-    //         firstspawn = false;
-    //         Destroyspike();
-    //         spikenum=5;
-    //         //StartCoroutine(randomspike());
-    //     } else if (currScore == 1 && firstspawn)
-    //     {
-    //         firstspawn = false;
-    //         Destroyspike();
-    //         spikenum = 5;
-    //         //generatespike();
+    void Update(){
+        if(scoremanager.round==2 && firstspawn){
+            firstspawn=false;
+            Destroyspike();
+            genround2spike();
+        }
+    }
+    void genround2spike(){
+        Debug.Log("get into round2, genround2spike is running");
+        float spikewidth = spikeprefab.GetComponent<SpriteRenderer>().bounds.size.x;
 
-    //     }
-    // }
-    
+        Vector2 randomPosition=new Vector2(spikeareamin.x+2.5f,spikeareamin.y);
+        float length=spikeareamax.x-(spikeareamin.x+2.5f);
+        while (length > spikewidth) // If remaining length is shorter than spikewidth, stop generating spikes
+        {
+                GameObject spike1 = Instantiate(spikeprefab, randomPosition, Quaternion.identity);
+                randomPosition += new Vector2(spikewidth, 0); // Corrected vector addition
+                length -= spikewidth;
+                spikes.Add(spike1);
+        }
+        
+    }
 
-    // IEnumerator randomspike(){
-    //     while(scoremanager.round !=1 ) // Keep running while round is 3
-    //     {
-    //         //generatespike();
-    //         yield return new WaitForSecondsRealtime(4f);
-    //         Destroyspike();
-    //         yield return new WaitForSecondsRealtime(1f);
-    //     }
-    // }
+   
 
 
 
@@ -96,6 +83,7 @@ public class Pinspawner : MonoBehaviour
                 GameObject spike1 = Instantiate(spikeprefab, randomPosition, Quaternion.identity);
                 randomPosition += new Vector2(spikewidth, 0); // Corrected vector addition
                 length -= spikewidth;
+                spikes.Add(spike1);
             }
         }
     }

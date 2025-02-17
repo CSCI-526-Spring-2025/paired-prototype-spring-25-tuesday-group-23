@@ -12,10 +12,15 @@ public class blockmanager : MonoBehaviour
     public Ball ball;
     public SCORE scoremanager;
     public Pinspawner pinspawner;
-    //private Vector2 blockareamin = new Vector2(-7f, -1f);
-    //private Vector2 blockareamax = new Vector2(7f, 2f);
+    private float positionx;
+    private float positiony;
+    
+    public float speed = 2f;
+    private Dictionary<GameObject, (float initialPosition, int dir, float range)> movementData = new Dictionary<GameObject, (float, int,float)>();
     private List<GameObject> blocks = new List<GameObject>();
-    //private bool firstspawn = true;
+    private List<GameObject> moveblocks=new List<GameObject>();
+    public bool firstgenblock=true;
+  
     void Start()
     {
         generateblock();
@@ -25,7 +30,29 @@ public class blockmanager : MonoBehaviour
     void Update()
     {
         checklevel();
+        if(scoremanager.round==2 ||scoremanager.round==3 ){
+            foreach(GameObject block in moveblocks){
+                Rigidbody2D rb=block.GetComponent<Rigidbody2D>();
+                if (!movementData.ContainsKey(block) || block == null)
+                {
+                        Debug.LogError("WTF? Block not in movementData: " + block.name);
+                        continue;
+                }
+                var(initailPos,dir,range)=movementData[block];
+                if(dir==1 || dir==-1){
+                    Debug.Log("now IN UPDATE");
+                    movingleftright(block,rb);
+                }
+                else{//for dir ==2 || dir==-2
+                    movingupdown(block,rb);
+                }
+                
+            }
+           
+        }
+        
     }
+   
 
     void checklevel()
     {
@@ -35,22 +62,12 @@ public class blockmanager : MonoBehaviour
         {
             StopAllCoroutines();
         }
-        // else if (currScore == 1 && firstspawn)
-        // {
-        //     Destroyblock();
-        //     firstspawn = false;
-        //     blockNum = 3;
-        //     generateblock();
-        // } else if(currScore == 3 && firstspawn)
-        // {
-        //     Destroyblock();
-        //     firstspawn = false;
-        //     blockNum = 5;
-        //     generateblock();
-        // } else if (currScore == 2 || currScore == 4)
-        // {
-        //     firstspawn = true;
-        // }
+        else if (scoremanager.round!=1 && firstgenblock){
+            firstgenblock=false;
+            Destroyblock();
+            generateblock();
+        }
+       
     }
 
     void Destroyblock()
@@ -59,8 +76,11 @@ public class blockmanager : MonoBehaviour
         foreach (GameObject block in blocks)
         {
             Destroy(block);
+            movementData.Remove(block);
         }
         blocks.Clear();
+        moveblocks.Clear();
+        Debug.Log("Blocks cleared, count: " + blocks.Count);
 
     }
 
@@ -79,9 +99,7 @@ public class blockmanager : MonoBehaviour
             };
 
             
-//             foreach (var list in blockinfo) {
-//     Debug.Log("value: " + string.Join(", ", list));
-// }
+
             List<float> widthforblock = new List<float>();
 
             foreach (var list in blockinfo)
@@ -93,7 +111,7 @@ public class blockmanager : MonoBehaviour
 
                 SpriteRenderer sr = newblock1.GetComponent<SpriteRenderer>();
                 //get real size of block
-                float blockwidth=sr.bounds.size[0];
+                float blockwidth=sr.bounds.size.x;
                 //add such block's width to widthforblock list
                 widthforblock.Add(blockwidth);
                 Debug.Log("Block size: " +blockwidth);
@@ -104,32 +122,135 @@ public class blockmanager : MonoBehaviour
             pinspawner.generatespike(blockinfo, widthforblock);
                        
         }
-        //for (int i = 0; i < blockNum; i++)
-        //{
-        //    //Debug.Log("Block num " + i);
-        //    Vector2 randomPosition = new Vector2(0, 0);
-        //    Quaternion rotation = Quaternion.identity;
-        //    randomPosition = new Vector2(Random.Range(blockareamin.x, blockareamax.x), Random.Range(blockareamin.y, blockareamax.y));
-        //    //Debug.Log("Block num " + randomPosition);
-        //    while (Mathf.Abs(randomPosition.x - ball.wormholeIn.position.x) < 0.75f &&
-        //           Mathf.Abs(randomPosition.y - ball.wormholeIn.position.y) < 0.75f)
-        //    {
-        //        Debug.Log("Position too close to wormhole, adjusting...");
-        //        randomPosition = new Vector2(Random.Range(blockareamin.x, blockareamax.x), Random.Range(blockareamin.y, blockareamax.y));   
-        //    }
-        //    //blockprefab.localscale
-        //    GameObject newblock = Instantiate(blockprefab, randomPosition, rotation);
-        //    int scaleX = Random.Range(10,30);
-        //    newblock.transform.localScale = new Vector3(scaleX/100f, 0.1f, 1f);
+        else if(scoremanager.round==2){
+            speed=2f;
 
-        //    Debug.Log("block is at " + randomPosition);
-        //    blocks.Add(newblock);
-        //}
-        Debug.Log("Blocks " + blocks);
+            GameObject blockblock = Instantiate(blockprefab, new Vector2(-2, 0.8f), Quaternion.identity);
+            blockblock.transform.localScale = new Vector3(1f, 0.1f, 1);
+            blocks.Add(blockblock);
+            moveblocks.Add(blockblock);
+            movementData[blockblock] = (1.25f, 2,0.75f);//block that moves up and down
+
+
+            //  blocks moving left and right
+            List<float[]> leftrightmoveblockinfo = new List<float[]>
+            {
+                new float[] { -4.5f, -2.5f, 0.25f,1f }, // Block 1, x,y,x-scale,floating range
+                new float[] { 0.5f, -3.5f, 0.3f,1.25f },
+                new float[] { 6f, -1.5f, 0.3f,1.25f }, // Block 2
+            };
+
+            foreach (var list in leftrightmoveblockinfo)
+            {
+                Vector2 position = new Vector2(list[0], list[1]);
+                GameObject newblock = Instantiate(blockprefab, position, Quaternion.identity);
+                newblock.transform.localScale = new Vector3(list[2], 0.1f, 1);
+                blocks.Add(newblock);
+                moveblocks.Add(newblock);
+                movementData[newblock] = (list[0], 1,list[3]);
+            }
+
+        }
+        else{//round ==3
+            speed=3f;
+            //still block:{5,-0.83}{0.33,0.1}
+            //still block:{4.13,-2.9}{0.1,0.4}
+            GameObject stblock = Instantiate(blockprefab, new Vector2(5.5f, 0), Quaternion.identity);
+            stblock.transform.localScale = new Vector3(0.33f, 0.1f, 1);
+            GameObject hrblock = Instantiate(blockprefab, new Vector2(4.5f, -2.43f), Quaternion.identity);
+            hrblock.transform.localScale = new Vector3(0.08f, 0.53f, 1);
+
+            //leftright
+            //{7.57,-3.7}{0.15,0.1}
+            //{-2.4,0.6}range1.5
+            //{6,1.5}range2
+            List<float[]> leftrightmoveblockinfo = new List<float[]>
+            {
+                new float[] { 7.57f, -3.7f, 0.1f,0.5f }, // Block 1, x,y,x-scale,floating range
+                new float[] { -1.8f, 0.6f, 0.15f,1.5f },
+                //new float[] { 6f, 1.5f, 0.15f,1.5f }, // Block 2
+            };
+
+            foreach (var list in leftrightmoveblockinfo)
+            {
+                Vector2 position = new Vector2(list[0], list[1]);
+                GameObject newblock = Instantiate(blockprefab, position, Quaternion.identity);
+                newblock.transform.localScale = new Vector3(list[2], 0.1f, 1);
+                moveblocks.Add(newblock);
+                movementData[newblock] = (list[0], 1,list[3]);
+            }
+
+            //updown
+            //{-5.2,2}range2
+            //{1.3,2}range1
+            //hoop{5.2,-1.7}{1,0.1}
+
+            List<float[]> updownblockinfo = new List<float[]>
+            {
+                new float[] { -3.8f, -3f, 0.15f,1f }, // Block 1, x,y,x-scale,floating range
+                new float[] { -5.8f, -1f, 0.15f,0.5f },
+                new float[] { 1.6f, 1.6f, 0.15f,0.6f },
+                
+            };
+
+            foreach (var list in updownblockinfo)
+            {
+                Vector2 position = new Vector2(list[0], list[1]);
+                GameObject newblock = Instantiate(blockprefab, position, Quaternion.identity);
+                newblock.transform.localScale = new Vector3(list[2], 0.1f, 1);
+                moveblocks.Add(newblock);
+                movementData[newblock] = (list[1], 2,list[3]);
+            }
+
+
+        }
+
+        
+       
+        
     }
-}
-// -5, -1.25, 0.25
-// 0, 2, 0.2
-//3, 2, 0.175
+    void movingleftright(GameObject block, Rigidbody2D rb)
+    {
+        //Debug.Log("now moving");
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        var (initialX, dir,range) = movementData[block];
+        float newX = rb.position.x + dir * speed * Time.deltaTime;
+        if (newX <= initialX - range)
+        {
+            movementData[block] = (initialX, 1,range); 
+            newX = initialX - range;
+        }
+        else if (newX >= initialX + range)
+        {
+            movementData[block] = (initialX, -1,range);
+            newX = initialX + range;
+        }
+        //Debug.Log("now moving to x position:"+newX);
+        rb.MovePosition(new Vector2(newX, rb.position.y));
+    }
 
-//6, 3.5
+
+    void movingupdown(GameObject block, Rigidbody2D rb)
+    {
+        Debug.Log("now moving y");
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        var (initialY, dir,range) = movementData[block];
+        float newY = rb.position.y + dir * speed * Time.deltaTime;
+        if (newY <= initialY - range)
+        {
+            movementData[block] = (initialY, 2,range); 
+            newY = initialY - range;
+        }
+        else if (newY >= initialY + range)
+        {
+            movementData[block] = (initialY, -2,range);
+            newY = initialY + range;
+        }
+        Debug.Log("now moving to y position:"+newY);
+        rb.MovePosition(new Vector2(rb.position.x,newY));
+    }
+
+    
+
+    
+}
