@@ -44,7 +44,7 @@ public class player : MonoBehaviour
 
     void Update()
     {
-        movementX = Input.GetAxisRaw("Horizontal");
+        //movementX = Input.GetAxisRaw("Horizontal");
         anglead=Input.GetAxisRaw("Angleadjust");
         strengthad=Input.GetAxisRaw("strengthadjust");
         if (shootstep == 1 && !adjustangle)
